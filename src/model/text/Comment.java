@@ -8,4 +8,6 @@ public class Comment extends Message {
         super(content, author);
         this.articleID = articleID;
     }
+    
+    public static String zaskodnickaPromenna = "CHA-CHA";
 }
