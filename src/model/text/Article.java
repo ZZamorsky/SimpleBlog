@@ -1,7 +1,5 @@
 package model.text;
 
-import java.time.LocalDateTime;
-
 public class Article extends Message{
 
     public static final String NO_COMMENTS = "No Comments so far.";

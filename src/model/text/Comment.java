@@ -10,4 +10,8 @@ public class Comment extends Message {
     }
     
     public static String zaskodnickaPromenna = "CHA-CHA";
+  
+    public String getArticleID() {
+	  	return articleID;
+	  }
 }
