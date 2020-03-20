@@ -1,4 +1,4 @@
-package model.text;
+package com.tieto.javabootcamp.model.text;
 
 /**
  * This is JavaDoc comment added by Pavel Mlcuch

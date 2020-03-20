@@ -1,4 +1,4 @@
-package model.user;
+package com.tieto.javabootcamp.model.user;
 
 public class Visitor extends User {
 
@@ -9,7 +9,7 @@ public class Visitor extends User {
     }
 
     @Override
-    public String getNickname() {
+    public String getName() {
         return GUEST;
     }
 

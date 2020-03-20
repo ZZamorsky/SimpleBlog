@@ -1,4 +1,4 @@
-package model.text;
+package com.tieto.javabootcamp.model.text;
 
 public class PrivateMessage extends Message {
 
