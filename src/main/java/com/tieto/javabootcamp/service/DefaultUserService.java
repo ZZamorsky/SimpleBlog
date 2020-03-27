@@ -2,7 +2,10 @@ package com.tieto.javabootcamp.service;
 
 import com.tieto.javabootcamp.dao.UserDao;
 import com.tieto.javabootcamp.exception.DatabaseException;
+import com.tieto.javabootcamp.exception.NotFoundException;
 import com.tieto.javabootcamp.model.user.User;
+import com.tieto.javabootcamp.repository.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +20,23 @@ public class DefaultUserService implements UserService {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void createUser(String name) {
+        createUser(new User(name));
+    }
+
+    @Override
+    public User createUser(User user) {
         try {
-            userDao.saveUser(new User(name));
+            return userDao.saveUser(user);
         } catch (DatabaseException e) {
             log.error(e.getMessage());
             e.printStackTrace();
+            return null;
         }
     }
 
@@ -53,6 +65,25 @@ public class DefaultUserService implements UserService {
         }
 
         return isRemoved;
+    }
+    
+    @Override
+    public void removeUser(Long id) {
+    	
+//    	userRepository.deleteById(
+//    			userRepository
+//    				.findById(id)
+//    				.orElseThrow(() -> new NotFoundException("User with supplied id does not exist"))
+//    				.getId()
+//    	);
+//    	
+//    	userRepository.findById(id).ifPresent(u -> userRepository.deleteById(u.getId()));
+    	
+    	if (userRepository.findById(id).isPresent()) {
+    		userRepository.deleteById(id);
+    	} else {
+    		throw new NotFoundException("User with supplied id does not exist");
+    	}
     }
 
     @Override

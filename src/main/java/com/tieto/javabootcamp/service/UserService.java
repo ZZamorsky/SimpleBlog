@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserService {
 
     void createUser(String name);
+    User createUser(User name);
 
     User getUser(String name);
 
@@ -15,6 +16,7 @@ public interface UserService {
     List<User> getAllUsers();
 
     boolean removeUser(String name);
+	void removeUser(Long id);
 
     void authenticateUser();
 
