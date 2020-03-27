@@ -1,6 +1,6 @@
 package com.tieto.javabootcamp.repository;
 
-import com.tieto.javabootcamp.application.DatabaseApplication;
+import com.tieto.javabootcamp.DatabaseApplication;
 import com.tieto.javabootcamp.model.user.User;
 
 import org.junit.jupiter.api.BeforeEach;
