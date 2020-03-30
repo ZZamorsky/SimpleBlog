@@ -1,0 +1,32 @@
+html {
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+}
+body {
+    width: 98vw;
+    margin: 0;
+    padding: 3vh 1vw;
+    background-color: white;
+    font-family: sans-serif;
+    height: 94vh;
+}
+@media (min-width: 918px) {
+    body {
+        width: 900px;
+        margin: 0 auto;
+    }
+}
+input.red-border[type="text"] {
+    border: 1px dashed red;
+}
+input.red-border[type="submit"] {
+    border: 2px solid salmon;
+    background-color: salmon;
+}
+input.red-border[type="submit"]:hover {
+    border-color: red;
+    background-color: red;
+    color: salmon;
+    font-weight: bold;
+}

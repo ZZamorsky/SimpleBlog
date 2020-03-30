@@ -1,0 +1,6 @@
+table.user-list {
+    border-collapse: collapse;
+}
+table.user-list, table.user-list th, table.user-list td {
+    border: 1px solid black;
+}

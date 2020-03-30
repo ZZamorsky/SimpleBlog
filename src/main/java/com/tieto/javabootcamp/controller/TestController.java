@@ -16,7 +16,7 @@ public class TestController {
 	//  (pouzivame thymeleaf - viz pom.xml)
 	@GetMapping("/")
 	public String test() {
-		return "test.html";
+		return "index.html";
 	}
 	
 	@GetMapping("/rest")
