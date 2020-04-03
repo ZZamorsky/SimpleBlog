@@ -1,0 +1,27 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="./index.css" />
+	<script type="text/javascript" src="./index.js"></script>
+</head>
+<body>
+	<h1>Nadpis</h1>
+	<p id="main-text">Text odstavce</p>
+	<form method="POST" action="." name="mainForm" onsubmit="return validateForm();">
+		<table>
+			<tr>
+				<td>Jmeno:</td>
+				<td><input type="text" name="firstname" class="red-border" /></td>
+			</tr>
+			<tr>
+				<td>Prijmeni:</td>
+				<td><input type="text" name="lastname" class="red-border" /></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="OK" class="red-border" /></td>				
+			</tr>
+		</table>
+	</form>
+	<button id="another-button">PUSH ME!</button>
+</body>
+</html>
