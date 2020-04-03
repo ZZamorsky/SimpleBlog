@@ -1,6 +1,6 @@
 package com.tieto.javabootcamp.model.text;
 
-public class Article extends Message{
+public class Article extends Message {
 
     public static final String NO_COMMENTS = "No Comments so far.";
 
