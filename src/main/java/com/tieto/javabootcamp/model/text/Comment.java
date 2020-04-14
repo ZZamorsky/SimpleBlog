@@ -1,17 +1,20 @@
 package com.tieto.javabootcamp.model.text;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("comment")
 public class Comment extends Message {
 
-    private String articleID;
-
-    public Comment(String content, String author, String articleID) {
-        super(content, author);
-        this.articleID = articleID;
-    }
-    
-    public static String zaskodnickaPromenna = "CHA-CHA";
+    private Long articleID;
   
-    public String getArticleID() {
+    public Long getArticleID() {
 	  	return articleID;
-	  }
+    }
+
+	public void setArticleID(Long articleID) {
+		this.articleID = articleID;
+	}
+    
 }

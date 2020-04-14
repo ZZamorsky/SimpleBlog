@@ -2,22 +2,33 @@ package com.tieto.javabootcamp.model.text;
 
 import java.time.LocalDateTime;
 
-public class Message extends TextContainer{
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 
-    private String author;
-    private LocalDateTime createdAt;
+import com.tieto.javabootcamp.model.user.User;
 
-    public Message(String content, String author) {
-        super(content);
-        this.author = author;
-        this.createdAt = LocalDateTime.now();
-    }
+@MappedSuperclass
+public abstract class Message extends TextContainer {
 
-    public String getAuthor() {
+	@ManyToOne
+	@JoinColumn(name = "author")
+	private User author;
+
+	private LocalDateTime createdAt;
+
+    public User getAuthor() {
         return author;
     }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+    public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
 }
