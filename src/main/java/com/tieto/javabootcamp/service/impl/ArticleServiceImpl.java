@@ -3,6 +3,7 @@ package com.tieto.javabootcamp.service.impl;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.tieto.javabootcamp.exception.BadRequestException;
@@ -21,15 +22,15 @@ public class ArticleServiceImpl implements ArticleService {
 	private UserRepository userRepository;
 	
 	@Override
-	public Article saveAritcle(Article article) {
+	public Article saveAritcle(Article article, User user) {
 		if (article.getId() == null) {
 			article.setCreatedAt(LocalDateTime.now());
 		}
-		if (article.getAuthor() == null || article.getAuthor().getName() == null) {
+		if (user == null) {
 			throw new BadRequestException("No author specified");
 		}
 		article.setAuthor(
-			userRepository.findByName(article.getAuthor().getName())
+			userRepository.findByName(user.getUsername())
 				.orElseThrow(() -> new NotFoundException("Author with supplied id not found"))
 		);
 		return articleRepository.save(article);

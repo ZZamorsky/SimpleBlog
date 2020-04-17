@@ -2,21 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
-    	storeArticle(document.mainForm.author.value, document.mainForm.content.value);
+    	storeArticle(document.mainForm.content.value);
     	return false;
     });
 });
 
-const storeArticle = (authorName, _content) => {
+const storeArticle = (_content) => {
     const req = new XMLHttpRequest();
     req.addEventListener('load', loadArticles);
     req.open("POST", "./api/articles");
     req.setRequestHeader('Content-Type', 'application/json');
     const newArticle = {
-    	content: _content,
-        author: {
-        	name: authorName
-        }
+    	content: _content
     };
     req.send(JSON.stringify(newArticle));
 };

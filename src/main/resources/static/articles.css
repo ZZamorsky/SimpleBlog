@@ -1,5 +1,6 @@
 table.article-table {
     border-collapse: collapse;
+    width: 100%;
 }
 table.article-table tr {
 	margin-bottom: 10px;

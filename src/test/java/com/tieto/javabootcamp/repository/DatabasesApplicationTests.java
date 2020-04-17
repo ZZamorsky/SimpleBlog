@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Set;
+
 @Transactional
 @SpringBootTest(classes = DatabaseApplication.class)
 public class DatabasesApplicationTests {
@@ -23,7 +25,7 @@ public class DatabasesApplicationTests {
 
 	@BeforeEach
 	public void init() {
-		user = new User("David");
+		user = new User("David", "", Set.of());
 		repository.deleteAll();
 	}
 
