@@ -9,6 +9,7 @@ import com.tieto.javabootcamp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,15 +24,13 @@ public class DefaultUserService implements UserService {
     
     @Autowired
     private UserRepository userRepository;
-
-    @Override
-    public void createUser(String name) {
-        createUser(new User(name));
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User createUser(User user) {
         try {
+        	user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userDao.saveUser(user);
         } catch (DatabaseException e) {
             log.error(e.getMessage());

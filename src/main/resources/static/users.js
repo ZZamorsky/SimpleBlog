@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
+    loadRoles();
     // nebo document.forms.mainForm
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
-    	storeUser(document.mainForm.firstname.value, document.mainForm.lastname.value);
+    	storeUser(
+    			document.mainForm.username.value, 
+    			document.mainForm.password.value,
+    			Array.from(document.mainForm.roles.selectedOptions).map(o => o.value)
+		);
     	return false;
     });
 
@@ -12,25 +17,38 @@ document.addEventListener("DOMContentLoaded", () => {
 //    });
 });
 
-const storeUser = (firstName, lastName) => {
+const storeUser = (username, password, roleIds) => {
     const req = new XMLHttpRequest();
     req.addEventListener('load', loadUsers);
-    req.open("POST", "./api/users/");
+    req.open("POST", "./api/users");
     req.setRequestHeader('Content-Type', 'application/json');
+    req.setRequestHeader('X-CSRF', )
     const newUser = {
-        name: `${firstName} ${lastName}`
+        name: username,
+        password: password,
+        roles: roleIds.map(roleId => ({ id: roleId }))
     };
     req.send(JSON.stringify(newUser));
 };
 
-let myData = 'data';
-function loadUsersOld() {
-	// myData vidi jen pokud je spustena ze stejneho contextu (napr. tohoto souboru) 
-	this.myData = 'old';
-}
+const loadRoles = () => {
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', () => {
+        const rolesSelect = document.getElementById('role-selector');
+        rolesSelect.innerHTML = '';
+        const roles = JSON.parse(req.responseText);
+        roles.forEach(role => {
+        	const roleOption = document.createElement('option');
+        	roleOption.value = role.id;
+        	roleOption.innerText = role.name;
+        	rolesSelect.append(roleOption);
+        });
+    });
+    req.open("GET", "./api/roles");
+    req.send();
+};
+
 const loadUsers = () => {
-	// myData vidi vzdy
-	this.myData = '';
     const req = new XMLHttpRequest();
     req.addEventListener('load', () => {
         const tableBody = document.getElementById('user-table');
@@ -38,7 +56,7 @@ const loadUsers = () => {
         const users = JSON.parse(req.responseText);
         users.forEach(user => createRow(tableBody, user.id, user.name));
     });
-    req.open("GET", "./api/users/");
+    req.open("GET", "./api/users");
     req.send();
 };
 

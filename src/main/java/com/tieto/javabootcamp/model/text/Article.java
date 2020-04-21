@@ -1,27 +1,35 @@
 package com.tieto.javabootcamp.model.text;
 
+import java.util.List;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+@Entity
+@DiscriminatorValue("article")
 public class Article extends Message {
 
-    public static final String NO_COMMENTS = "No Comments so far.";
-
     private String category;
-    private String[] comments;
+    
+    @OneToMany
+    @JoinColumn(name = "articleid")
+    private List<Comment> comments;
 
-    public Article(String content, String author, String category) {
-        super(content, author);
-        this.category = category;
-        this.comments = new String[] { NO_COMMENTS };
-    }
+    public void setCategory(String category) {
+		this.category = category;
+	}
 
-    public String getCategory() {
+	public String getCategory() {
         return category;
     }
 
-    public String[] getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(String[] comments) {
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

@@ -1,6 +1,7 @@
 package com.tieto.javabootcamp.model.user;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 public class RegisteredUser extends User {
 
@@ -11,7 +12,7 @@ public class RegisteredUser extends User {
     private LocalDateTime registeredSince;
 
     public RegisteredUser(String nickname, String name, String surname, String email,String password) {
-        super(nickname);
+        super(nickname, password, Set.of());
         this.name = name;
         this.surname = surname;
         this.email = email;

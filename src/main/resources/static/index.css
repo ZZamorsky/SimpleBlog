@@ -16,7 +16,8 @@ body {
 		margin: 0 auto;
 	}
 }
-input.red-border[type="text"] {
+input.red-border[type="text"],
+textarea.red-border {
 	border: 1px dashed red;
 }
 input.red-border[type="submit"] {

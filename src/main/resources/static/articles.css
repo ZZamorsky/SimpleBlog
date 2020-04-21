@@ -1,0 +1,14 @@
+table.article-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table.article-table tr {
+	margin-bottom: 10px;
+}
+table.article-table td:first-child {
+	vertical-align: top;
+	width: 15%
+}
+table.article-table td:nth-child(2) {
+	width: 85%
+}
