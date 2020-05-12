@@ -2,8 +2,8 @@ package com.tieto.javabootcamp.model.user;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -27,6 +25,8 @@ public class User {
             allocationSize = 50
     )
     private Long id;
+    
+    @Column(unique = true)
     private String name;
     @JsonProperty(access = Access.WRITE_ONLY)
     private String password;
@@ -38,13 +38,14 @@ public class User {
     )
     private Set<Role> roles;
 
-    protected User() {
-    }
-
     public User(String name, String password, Set<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
+    }
+    
+    public User() {
+    	
     }
 
     @Override

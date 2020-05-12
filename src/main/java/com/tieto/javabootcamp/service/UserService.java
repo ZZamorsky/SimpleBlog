@@ -2,7 +2,6 @@ package com.tieto.javabootcamp.service;
 
 import com.tieto.javabootcamp.model.user.User;
 
-import java.util.List;
 
 public interface UserService {
 
@@ -10,13 +9,10 @@ public interface UserService {
 
     User getUser(String name);
 
-    List<User> getUsersByName(String name);
+    Iterable<User> getAllUsers();
 
-    List<User> getAllUsers();
-
-    boolean removeUser(String name);
-	void removeUser(Long id);
-
-    void authenticateUser();
+	boolean removeUser(String name);
+	
+	User updateUser(User name);
 
 }

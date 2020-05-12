@@ -35,7 +35,7 @@ public class MyInitializer implements InitializingBean  {
 		// fetch all users
 		log.info("Users found with getAllUsers():");
 		log.info("-------------------------------");
-		userService.getAllUsers().stream().map(User::getName).forEach(log::info);
+		log.info(userService.getAllUsers().toString());
 		log.info("");
 
 	}

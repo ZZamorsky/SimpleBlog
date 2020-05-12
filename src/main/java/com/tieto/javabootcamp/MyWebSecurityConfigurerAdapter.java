@@ -67,9 +67,12 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 			.anonymous()
 			.and().authorizeRequests()
 			.antMatchers(
-					"/users",
+//					"/articles",
+//					"/users",
 					"/api/users**",
 					"/api/roles**",
+					"/api/articles**",
+					"/api/comments**",
 					"/*.css",
 					"/*.js"
 			).permitAll()

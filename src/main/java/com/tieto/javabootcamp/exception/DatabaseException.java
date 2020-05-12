@@ -4,7 +4,9 @@ import java.io.IOException;
 
 public class DatabaseException extends IOException {
 
-    public DatabaseException() {
+	private static final long serialVersionUID = 4355621975617706325L;
+
+	public DatabaseException() {
     }
 
     public DatabaseException(String message, Throwable cause) {

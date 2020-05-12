@@ -22,7 +22,7 @@ const storeUser = (username, password, roleIds) => {
     req.addEventListener('load', loadUsers);
     req.open("POST", "./api/users");
     req.setRequestHeader('Content-Type', 'application/json');
-    req.setRequestHeader('X-CSRF', )
+//    req.setRequestHeader('X-CSRF')
     const newUser = {
         name: username,
         password: password,
@@ -41,7 +41,7 @@ const loadRoles = () => {
         	const roleOption = document.createElement('option');
         	roleOption.value = role.id;
         	roleOption.innerText = role.name;
-        	rolesSelect.append(roleOption);
+        	rolesSelect.append(roleOption);        	
         });
     });
     req.open("GET", "./api/roles");
@@ -49,7 +49,7 @@ const loadRoles = () => {
 };
 
 const loadUsers = () => {
-    const req = new XMLHttpRequest();
+	const req = new XMLHttpRequest();
     req.addEventListener('load', () => {
         const tableBody = document.getElementById('user-table');
         tableBody.innerHTML = '';

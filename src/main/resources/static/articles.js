@@ -30,6 +30,21 @@ const loadArticles = () => {
     req.send();
 };
 
+const deleteArticle = ()=> {
+	const req = new XMLHttpRequest();
+	req.addEventListener('load', loadArticles);
+    req.open("DELETE", "./api/articles");
+    req.setRequestHeader('Content-Type', 'application/json');
+    const newArticle = {
+    	content: _content
+    };
+    req.send(JSON.stringify(newArticle));
+	
+	
+
+};
+
+
 const createRow = (tableBody, article) => {
     const nameCell = document.createElement('td');
     nameCell.innerText = article.author.name;
@@ -47,7 +62,10 @@ const createRow = (tableBody, article) => {
     	commentsTable.append(commentRow);
     })
     contentCell.append(contentParagraph, commentsTable);
+    const deleteCell = document.createElement('td');
+    deleteCell.innerText = "delete";
     const articleRow = document.createElement('tr');
-    articleRow.append(nameCell, contentCell);
+    articleRow.append(nameCell, contentCell, deleteCell);
     tableBody.append(articleRow);
+    
 };
