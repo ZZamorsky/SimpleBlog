@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
+    
+    document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
@@ -30,24 +31,32 @@ const loadArticles = () => {
     req.send();
 };
 
-const deleteArticle = ()=> {
+const deleteArticle = (_content)=> {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
     req.open("DELETE", "./api/articles");
     req.setRequestHeader('Content-Type', 'application/json');
-    const newArticle = {
-    	content: _content
-    };
-    req.send(JSON.stringify(newArticle));
-	
-	
-
+    req.send(_content);
 };
 
+const editArticle = (id, _content) => {    
+	const req = new XMLHttpRequest();
+	req.addEventListener('load', loadArticles);
+	req.open("UPDATE", "./api/articles");
+	req.setRequestHeader('Content-Type', 'application/json');
+	const updateArticle = {
+			id:id
+			content: _content,
+    };
+	req.send(JSON.stringify(updateArticle));
+	
+};
 
 const createRow = (tableBody, article) => {
     const nameCell = document.createElement('td');
     nameCell.innerText = article.author.name;
+    const idCell = document.createElement('td');
+    idCell.innerText = article.id;
     const contentCell = document.createElement('td');
     const contentParagraph = document.createElement('p');
     contentParagraph.innerText = article.content;
@@ -60,12 +69,19 @@ const createRow = (tableBody, article) => {
     	commentContentCell.innerText = comment.content;
     	commentRow.append(commentAuthorCell, commentContentCell);
     	commentsTable.append(commentRow);
-    })
+    	})
     contentCell.append(contentParagraph, commentsTable);
     const deleteCell = document.createElement('td');
-    deleteCell.innerText = "delete";
+    deleteCell.data = JSON.stringify(article);
+    deleteCell.addEventListener('click', function () {
+    	deleteArticle(this.data);
+    });    
+    const deleteCellLink = document.createElement('a');
+    deleteCellLink.innerText = "delete";
+    deleteCellLink.href = "#";    
+    deleteCell.append(deleteCellLink);
     const articleRow = document.createElement('tr');
-    articleRow.append(nameCell, contentCell, deleteCell);
+    articleRow.append(nameCell, contentCell, idCell,  deleteCell, updateCell);
     tableBody.append(articleRow);
     
 };

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
     loadRoles();
-    // nebo document.forms.mainForm
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
     	storeUser(
@@ -11,24 +10,26 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
     	return false;
     });
-
-//    document.getElementById('submit-the-form').addEventListener('click', () => {
-//    	storeUser(document.mainForm.firstname.value, document.mainForm.lastname.value);
-//    });
 });
 
 const storeUser = (username, password, roleIds) => {
+    if(username === ""){
+        alert("Name Cannot Be Empty");}
+    else if(password === ""){
+    	alert("Password Cannot Be Empty");}
+    else {
     const req = new XMLHttpRequest();
-    req.addEventListener('load', loadUsers);
-    req.open("POST", "./api/users");
-    req.setRequestHeader('Content-Type', 'application/json');
+	req.addEventListener('load', loadUsers);
+	req.open("POST", "./api/users");
+	req.setRequestHeader('Content-Type', 'application/json');
 //    req.setRequestHeader('X-CSRF')
-    const newUser = {
-        name: username,
-        password: password,
-        roles: roleIds.map(roleId => ({ id: roleId }))
-    };
-    req.send(JSON.stringify(newUser));
+	const newUser = {
+			name: username,
+			password: password,
+			roles: roleIds.map(roleId => ({ id: roleId }))};
+    
+    req.send(JSON.stringify(newUser));}
+    
 };
 
 const loadRoles = () => {

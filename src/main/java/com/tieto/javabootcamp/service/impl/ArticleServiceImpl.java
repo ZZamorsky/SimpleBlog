@@ -3,9 +3,12 @@ package com.tieto.javabootcamp.service.impl;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
 import com.tieto.javabootcamp.Component.AccessRights;
 import com.tieto.javabootcamp.exception.BadRequestException;
 import com.tieto.javabootcamp.exception.NotFoundException;
@@ -26,6 +29,12 @@ public class ArticleServiceImpl implements ArticleService {
 	public Article saveArticle(Article article, User user) {
 		if (article.getId() == null) {
 			article.setCreatedAt(LocalDateTime.now());
+		}
+		if (articleRepository.existsById(article.getId())) {
+			if (AccessRights.isAproved(article, user)) {
+				updateArticle(article.getContent()); 
+				}
+			else throw new BadRequestException("No permission for this operation"); 
 		}
 		if (user == null) {
 			throw new BadRequestException("No author specified");
@@ -58,8 +67,16 @@ public class ArticleServiceImpl implements ArticleService {
 	
 
 	@Override
-	public Article updateArticle(Article article, User user) {
-		// TODO Auto-generated method stub
+	public Article updateArticle(String content) {
+    	
 		return null;
+	}
+	
+	@Override
+	public Iterable<Article> ListThreeArticle(){
+	Pageable lastThreeArticles = PageRequest.of(0, 3, Sort.by("createdAt").descending());
+	Page<Article> threeArticles = articleRepository.findAll(lastThreeArticles);
+	Iterable<Article> listThreeArticles = threeArticles.getContent();
+	return listThreeArticles;
 	}
 }

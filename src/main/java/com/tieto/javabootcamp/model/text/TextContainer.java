@@ -20,7 +20,6 @@ import javax.persistence.Table;
  * content text
  * author text
  * createdAt datetime
- * category text
  * articleID biginteger
  * recipient text
  */

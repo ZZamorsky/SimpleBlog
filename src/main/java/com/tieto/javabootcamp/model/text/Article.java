@@ -11,19 +11,9 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue("article")
 public class Article extends Message {
 
-    private String category;
-    
     @OneToMany
     @JoinColumn(name = "articleid")
     private List<Comment> comments;
-
-    public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getCategory() {
-        return category;
-    }
 
     public List<Comment> getComments() {
         return comments;

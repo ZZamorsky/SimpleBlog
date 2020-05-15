@@ -15,4 +15,6 @@ public interface UserService {
 	
 	User updateUser(User name);
 
+	boolean verifyUser(String name);
+
 }

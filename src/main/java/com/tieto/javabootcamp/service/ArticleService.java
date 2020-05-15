@@ -11,5 +11,7 @@ public interface ArticleService {
 	
 	public void removeArticle(Article article, User user);
 	
-	public Article updateArticle(Article article, User user);
+	public Article updateArticle(String content);
+
+	public Iterable<Article> ListThreeArticle();
 }

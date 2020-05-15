@@ -22,4 +22,9 @@ public class HtmlController {
         return "articles.html";
     }
     
+    @GetMapping("/test")
+    public String test() {
+        return "test.html";
+    }
+    
 }
