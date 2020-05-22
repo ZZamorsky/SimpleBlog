@@ -26,18 +26,8 @@ import com.tieto.javabootcamp.repository.UserRepository;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-//	@Autowired
-//	PasswordEncoder passwordEncoder;
 	@Autowired
 	UserRepository userRepository;
-	
-//	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.inMemoryAuthentication()
-//			.withUser("user").password(passwordEncoder.encode("password")).roles("USER")
-//			.and()
-//			.withUser("admin").password(passwordEncoder.encode("admin")).roles("USER", "ADMIN");
-//	}
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -52,9 +42,7 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 						.username(user.getName())
 						.password(user.getPassword())
 						.authorities(
-								//                           r -> r.getName()   roleName -> new SimpleGrantedAuthority(roleName)
 								user.getRoles().stream().map(Role::getName).map(roleName -> new SimpleGrantedAuthority("ROLE_" + roleName)).collect(Collectors.toSet())
-								//        { name: "USER" } -> "USER"         -> new SimpleGrantedAuthority("ROLE_USER")
 						)
 						.build();
 			}
@@ -78,13 +66,9 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 			).permitAll()
 			.anyRequest().authenticated()
 			.and().formLogin()
-//				.failureUrl("fail.html")
-//				.defaultSuccessUrl("articles")
-//				.loginPage("login.html")
 			.and().logout()
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/users")
-			//.and().httpBasic()
 			.and().cors()
 			.and().csrf().disable();
 	}

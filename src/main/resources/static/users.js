@@ -10,6 +10,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
     	return false;
     });
+    document.getElementsByName('mainForm')[0].addEventListener('update', event => {
+    	event.preventDefault();
+    	updateUser(
+    			document.mainForm.id.value,
+    			document.mainForm.username.value, 
+    			document.mainForm.password.value,
+    			Array.from(document.mainForm.roles.selectedOptions).map(o => o.value)
+		);
+    	return false;
+    });
+    document.getElementsByName('mainForm')[0].addEventListener('delete', event => {
+    	event.preventDefault();
+    	deleteUser(
+    			document.mainForm.id.value
+		);
+    	return false;
+    });
+
+  
+    
+    
+    
+    
 });
 
 const storeUser = (username, password, roleIds) => {

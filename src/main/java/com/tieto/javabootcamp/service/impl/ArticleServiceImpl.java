@@ -20,6 +20,9 @@ import com.tieto.javabootcamp.service.ArticleService;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
+	
+	@Autowired 
+	private AccessRights accessRights;
 	@Autowired
 	private ArticleRepository articleRepository;
 	@Autowired
@@ -29,12 +32,6 @@ public class ArticleServiceImpl implements ArticleService {
 	public Article saveArticle(Article article, User user) {
 		if (article.getId() == null) {
 			article.setCreatedAt(LocalDateTime.now());
-		}
-		if (articleRepository.existsById(article.getId())) {
-			if (AccessRights.isAproved(article, user)) {
-				updateArticle(article.getContent()); 
-				}
-			else throw new BadRequestException("No permission for this operation"); 
 		}
 		if (user == null) {
 			throw new BadRequestException("No author specified");
@@ -53,7 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void removeArticle(Article article, User user) {
-    	if (AccessRights.isAproved(article, user)) {
+    	if (accessRights.isAproved(article, user)) {
     		if (articleRepository.findById(article.getId()).isPresent()) {
     		articleRepository.deleteById(article.getId());
     		} 

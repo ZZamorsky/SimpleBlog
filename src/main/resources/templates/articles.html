@@ -12,6 +12,10 @@
 	<p>
 		<a href="./logout">Logout</a>
 	</p>
+	
+	<p id="main-text"></p>
+	
+	
 	<table class="article-table">
 		<tbody id="article-list"></tbody>
 	</table>
@@ -26,10 +30,31 @@
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
-				<td><input type="submit" value="OK" class="red-border" /></td>
+				<td><input type="submit" value="SAVE" class="red-border" /></td>
 			</tr>
 		</table>
 	</form>
 	
+		<form name="updateForm">
+		<table>
+					<tr>
+				<td>ID:</td>
+				<td>
+					<textarea rows="1" cols="5" name="ID" class="red-border"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>Content:</td>
+				<td>
+					<textarea rows="6" cols="60" name="content" class="red-border"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="submit" value="UPDATE" class="red-border" /></td>
+			</tr>
+		</table>
+	</form>
+
 </body>
 </html>

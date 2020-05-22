@@ -1,5 +1,4 @@
-    
-    document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
@@ -45,8 +44,8 @@ const editArticle = (id, _content) => {
 	req.open("UPDATE", "./api/articles");
 	req.setRequestHeader('Content-Type', 'application/json');
 	const updateArticle = {
-			id:id
-			content: _content,
+			id:id,
+			content: _content
     };
 	req.send(JSON.stringify(updateArticle));
 	
@@ -55,9 +54,9 @@ const editArticle = (id, _content) => {
 const createRow = (tableBody, article) => {
     const nameCell = document.createElement('td');
     nameCell.innerText = article.author.name;
+    const contentCell = document.createElement('td');
     const idCell = document.createElement('td');
     idCell.innerText = article.id;
-    const contentCell = document.createElement('td');
     const contentParagraph = document.createElement('p');
     contentParagraph.innerText = article.content;
     const commentsTable = document.createElement('table');
@@ -81,7 +80,11 @@ const createRow = (tableBody, article) => {
     deleteCellLink.href = "#";    
     deleteCell.append(deleteCellLink);
     const articleRow = document.createElement('tr');
-    articleRow.append(nameCell, contentCell, idCell,  deleteCell, updateCell);
+    articleRow.append(nameCell, contentCell, idCell, deleteCell);
     tableBody.append(articleRow);
     
 };
+document.addEventListener("DOMContentLoaded", () => {
+	loadArticles();
+    });
+;
