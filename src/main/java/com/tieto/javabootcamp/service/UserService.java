@@ -11,7 +11,7 @@ public interface UserService {
 
     Iterable<User> getAllUsers();
 
-	boolean removeUser(String name);
+	boolean deleteUser(Long id);
 	
 	User updateUser(User name);
 

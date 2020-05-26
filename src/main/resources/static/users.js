@@ -20,23 +20,20 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
     	return false;
     });
-    document.getElementsByName('mainForm')[0].addEventListener('delete', event => {
-    	event.preventDefault();
-    	deleteUser(
-    			document.mainForm.id.value
-		);
-    	return false;
-    });
-
-  
-    
-    
-    
-    
 });
 
-const storeUser = (username, password, roleIds) => {
-    if(username === ""){
+const deleteUser = (id) => {
+		const req = new XMLHttpRequest();
+		console.log(id)
+		req.addEventListener('load', loadUsers);
+	    req.open("DELETE", "./api/users/"+ id);
+	    req.send();
+	
+
+};
+
+const storeUser = (userName, password, roleIds) => {
+    if(userName === ""){
         alert("Name Cannot Be Empty");}
     else if(password === ""){
     	alert("Password Cannot Be Empty");}
@@ -47,7 +44,7 @@ const storeUser = (username, password, roleIds) => {
 	req.setRequestHeader('Content-Type', 'application/json');
 //    req.setRequestHeader('X-CSRF')
 	const newUser = {
-			name: username,
+			name: userName,
 			password: password,
 			roles: roleIds.map(roleId => ({ id: roleId }))};
     
@@ -90,6 +87,15 @@ const createRow = (tableBody, id, name) => {
     const nameCell = document.createElement('td');
     nameCell.innerText = name;
     const userRow = document.createElement('tr');
-    userRow.append(idCell, nameCell);
+    const deleteCell = document.createElement('td');
+    deleteCell.addEventListener('click', function () {
+    	deleteUser(id);
+    });    
+    const deleteCellLink = document.createElement('a');
+    deleteCellLink.innerText = "delete";
+    deleteCellLink.href = "#";    
+    deleteCell.append(deleteCellLink);
+    userRow.append(idCell, nameCell, deleteCell);
+
     tableBody.append(userRow);
 };

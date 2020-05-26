@@ -10,7 +10,7 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	Optional<User> findByName(String name);
 	
-	Optional<Long> deleteByName(String name);
+	void deleteById(Long id);
 	
 
 }

@@ -1,7 +1,7 @@
 package com.tieto.javabootcamp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,34 +23,34 @@ public class UserController {
 		this.userService = userService;
 	}
 
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@GetMapping()
 	public Iterable<User> getUsers() {
 		return userService.getAllUsers();
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@GetMapping("/{userName}")
 	public User getUser(@PathVariable("userName") String name) {
 		return userService.getUser(name);
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@PostMapping()
 	public User createUser(@RequestBody User user) {
 		return userService.createUser(user);
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@PutMapping("/{userName}")
 	public User putUser(@RequestBody User user) {
 		return userService.updateUser(user);
 	}
 	
-	@Secured("ROLE_ADMIN")
-	@DeleteMapping("/{userName}")
-	public void delete(@PathVariable String userName) {
-		userService.removeUser(userName);
+//	@Secured("ROLE_ADMIN")
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable Long id) {
+		userService.deleteUser(id);
 	}
 
 }

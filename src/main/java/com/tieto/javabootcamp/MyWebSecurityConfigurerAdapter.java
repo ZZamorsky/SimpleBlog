@@ -65,10 +65,11 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 					"/*.js"
 			).permitAll()
 			.anyRequest().authenticated()
-			.and().formLogin()
-			.and().logout()
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/users")
+//			.and().formLogin()
+//			.and().logout()
+//				.logoutUrl("/logout")
+//				.logoutSuccessUrl("/users")
+			.and().httpBasic()
 			.and().cors()
 			.and().csrf().disable();
 	}

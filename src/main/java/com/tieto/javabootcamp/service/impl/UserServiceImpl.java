@@ -46,13 +46,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean removeUser(String name) {
+    public boolean deleteUser(Long id) {
     	boolean isRemoved = false;
-    	if (verifyUser(name)) {
-    		userRepository.deleteByName(name);
+        if (verifyUser(id)) {
+    		userRepository.deleteById(id);
     		isRemoved = true;
     	} else {
-    		throw new NotFoundException("User with supplied name does not exist");}
+    		throw new NotFoundException("User with supplied id does not exist");}
     	return isRemoved;
     	}
     
@@ -70,6 +70,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean verifyUser(String name) {
 		if (userRepository.findByName(name).isPresent()) {
+			return true;
+		}
+		else return false;
+	}
+
+	public boolean verifyUser(Long id) {
+		if (userRepository.findById(id).isPresent()) {
 			return true;
 		}
 		else return false;
