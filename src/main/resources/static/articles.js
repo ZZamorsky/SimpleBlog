@@ -159,10 +159,5 @@ const createRow = (tableBody, article) => {
     deleteCell.append(deleteCellLink);
     const articleRow = document.createElement('tr');
     articleRow.append(nameCell, contentCell, idCell, deleteCell);
-    tableBody.append(articleRow);
-    
+    tableBody.append(articleRow);    
 };
-document.addEventListener("DOMContentLoaded", () => {
-	loadArticles();
-    });
-;
