@@ -13,7 +13,7 @@ public interface UserService {
 
 	boolean deleteUser(Long id);
 	
-	User updateUser(User name);
+	User updateUser(User user);
 
 	boolean verifyUser(String name);
 

@@ -42,7 +42,7 @@ public class UserController {
 	}
 	
 //	@Secured("ROLE_ADMIN")
-	@PutMapping("/{userName}")
+	@PutMapping()
 	public User putUser(@RequestBody User user) {
 		return userService.updateUser(user);
 	}

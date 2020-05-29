@@ -42,8 +42,13 @@ public class UserServiceImpl implements UserService {
     public User getUser(String name) {
 		return userRepository.findByName(name)
 					.orElseThrow(() -> new NotFoundException("User with supplied name not found"));
-
     }
+    
+    public User getUser(Long id) {
+		return userRepository.findById(id)
+					.orElseThrow(() -> new NotFoundException("User with supplied id not found"));
+    }
+    
 
     @Override
     public boolean deleteUser(Long id) {
@@ -63,8 +68,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+    	if (userRepository.findById(user.getId()).isPresent()) {
+    		if (user.getName().isEmpty()) {
+    			user.setName(getUser(user.getId()).getName());
+    			}
+    		if (user.getPassword().isEmpty()) {
+    			user.setPassword(getUser(user.getId()).getPassword());
+    			}
+    		else user.setPassword(passwordEncoder.encode(user.getPassword()));
+    		    		
+    		if (user.getRoles().isEmpty()) {
+    			user.setRoles(getUser(user.getId()).getRoles());
+    			}    		
+    		return userRepository.save(user);}
+    	else throw new BadRequestException("This Id is not exist");    	
+
 	}
 
 	@Override

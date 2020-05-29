@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("comment")
-public class Comment extends Message {
+public class Comment extends TextContainer {
 
 
 	private Long articleID;

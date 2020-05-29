@@ -1,6 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
     loadRoles();
+    const attachTo = document.getElementById('mainForm');
+    const butt1 = document.getElementById('update-butt');
+    butt1.onclick = function() {
+    	updateUser(
+        			document.mainForm.ID.value, 	
+        			document.mainForm.username.value, 
+        			document.mainForm.password.value,
+        			Array.from(document.mainForm.roles.selectedOptions).map(o => o.value)		
+        	);
+        };
+
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
     	storeUser(
@@ -9,18 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     			Array.from(document.mainForm.roles.selectedOptions).map(o => o.value)
 		);
     	return false;
+
     });
-    document.getElementsByName('mainForm')[0].addEventListener('update', event => {
-    	event.preventDefault();
-    	updateUser(
-    			document.mainForm.id.value,
-    			document.mainForm.username.value, 
-    			document.mainForm.password.value,
-    			Array.from(document.mainForm.roles.selectedOptions).map(o => o.value)
-		);
-    	return false;
-    });
+
+
 });
+
+
+
 
 const deleteUser = (id) => {
 		const req = new XMLHttpRequest();
@@ -44,6 +51,25 @@ const storeUser = (userName, password, roleIds) => {
 	req.setRequestHeader('Content-Type', 'application/json');
 //    req.setRequestHeader('X-CSRF')
 	const newUser = {
+			name: userName,
+			password: password,
+			roles: roleIds.map(roleId => ({ id: roleId }))};
+    
+    req.send(JSON.stringify(newUser));}
+    
+};
+
+const updateUser = (id, userName, password, roleIds) => {
+    if(id === ""){
+        alert("ID is mandatory and cannot Be Empty");}
+    else {
+    const req = new XMLHttpRequest();
+	req.addEventListener('load', loadUsers);
+	req.open("PUT", "./api/users");
+	req.setRequestHeader('Content-Type', 'application/json');
+//    req.setRequestHeader('X-CSRF')
+	const newUser = {
+			id: id,
 			name: userName,
 			password: password,
 			roles: roleIds.map(roleId => ({ id: roleId }))};

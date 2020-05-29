@@ -1,10 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
-    document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
-    	event.preventDefault();
-    	storeArticle(document.mainForm.content.value);
-    	return false;
-    });
 });
 
 const loadArticles = () => {
@@ -25,25 +20,8 @@ const createRow = (tableBody, article) => {
     const contentCell = document.createElement('td');
     const contentParagraph = document.createElement('p');
     contentParagraph.innerText = article.content;
-    const commentsTable = document.createElement('table');
-    article.comments.forEach(comment => {
-    	const commentRow = document.createElement('tr');
-    	const commentAuthorCell = document.createElement('td');
-    	commentAuthorCell.innerText = comment.author.name;
-    	const commentContentCell = document.createElement('td');
-    	commentContentCell.innerText = comment.content;
-    	commentRow.append(commentAuthorCell, commentContentCell);
-    	commentsTable.append(commentRow);
-    })
-    contentCell.append(contentParagraph, commentsTable);
+    contentCell.append(contentParagraph);
     const articleRow = document.createElement('tr');
-    articleRow.append(nameCell, contentCell);
-    
-    tableBody.append(articleRow);
-    
+    articleRow.append(nameCell, contentCell);    
+    tableBody.append(articleRow);    
 };
-
-document.addEventListener("DOMContentLoaded", () => {
-	loadArticles();
-    });
-;

@@ -9,7 +9,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("article")
-public class Article extends Message {
+public class Article extends TextContainer {
 
     @OneToMany
     @JoinColumn(name = "articleid")

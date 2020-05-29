@@ -17,6 +17,8 @@ import com.tieto.javabootcamp.repository.ArticleRepository;
 import com.tieto.javabootcamp.repository.UserRepository;
 import com.tieto.javabootcamp.service.ArticleService;
 
+
+
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
@@ -47,6 +49,11 @@ public class ArticleServiceImpl implements ArticleService {
 	public Iterable<Article> listArticles() {
 		return articleRepository.findAll();
 	}
+	
+    private Article getArticle(Long id) {
+		return articleRepository.findById(id)
+					.orElseThrow(() -> new NotFoundException("Article with supplied id not found"));
+    }
 
 	@Override
 	public void removeArticle(Article article, User user) {
@@ -62,12 +69,6 @@ public class ArticleServiceImpl implements ArticleService {
     	else throw new BadRequestException("No permission for this operation");
     }
 	
-
-	@Override
-	public Article updateArticle(String content) {
-    	
-		return null;
-	}
 	
 	@Override
 	public Iterable<Article> ListThreeArticle(){
@@ -75,5 +76,25 @@ public class ArticleServiceImpl implements ArticleService {
 	Page<Article> threeArticles = articleRepository.findAll(lastThreeArticles);
 	Iterable<Article> listThreeArticles = threeArticles.getContent();
 	return listThreeArticles;
+	}
+
+	@Override
+	public void updateArticle(Article article, User user) {
+    	if (accessRights.isAproved(article, user)) {
+    		if (articleRepository.findById(article.getId()).isPresent()) {
+    			article.setAuthor(
+    					userRepository.findByName(user.getUsername())
+    						.orElseThrow(() -> new NotFoundException("Author with supplied id not found"))
+    				);
+    			article.setCreatedAt(getArticle(article.getId()).getCreatedAt());
+    			articleRepository.save(article);
+    		}
+
+    		else				
+    			throw new NotFoundException("Article with supplied id does not exist");
+    		
+    			
+    	}
+    	else throw new BadRequestException("No permission for this operation");
 	}
 }

@@ -1,11 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
+	const updateArt = document.getElementById('update-art');
+    updateArt.onclick = function() {
+    	updateArticle(
+    			document.updateForm.articleId.value, 	
+        		document.updateForm.content.value
+        		);
+    	};
+    const updateCom = document.getElementById('update-com');
+    updateCom.onclick = function() {
+    	updateComment(
+    			document.updateForm.articleId.value, 	
+        		document.updateForm.content.value
+    			);
+    	};
+    const comment = document.getElementById('comment-butt');
+    comment.onclick = function() {
+    	addComment(
+    			document.updateForm.articleId.value, 	
+        		document.updateForm.content.value
+        		);
+    	};
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
     	storeArticle(document.mainForm.content.value);
     	return false;
     });
 });
+
+const addComment = (artId, content) =>{
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', loadArticles);
+    req.open("POST", "./api/comments");
+    req.setRequestHeader('Content-Type', 'application/json');
+    const newArticle = {
+    		
+    	content: content,
+    	id: artId
+    };
+    req.send(JSON.stringify(newArticle));
+}
 
 const storeArticle = (_content) => {
     const req = new XMLHttpRequest();
@@ -30,6 +64,18 @@ const loadArticles = () => {
     req.send();
 };
 
+const loadComments = () => {
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', () => {
+        const tableBody = document.getElementById('article-list');
+        tableBody.innerHTML = '';
+        const comments = JSON.parse(req.responseText);
+        comments.forEach(comment => createRow(tableBody, comment));
+    });
+    req.open("GET", "./api/comments");
+    req.send();
+};
+
 const deleteArticle = (_content)=> {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
@@ -38,16 +84,37 @@ const deleteArticle = (_content)=> {
     req.send(_content);
 };
 
-const editArticle = (id, _content) => {    
+const deleteComment = (id)=> {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
-	req.open("UPDATE", "./api/articles");
+    req.open("DELETE", "./api/comments");
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.send(id);
+};
+
+const updateArticle = (artId, _content) => {    
+	const req = new XMLHttpRequest();
+	req.addEventListener('load', loadArticles);
+	req.open("PUT", "./api/articles");
 	req.setRequestHeader('Content-Type', 'application/json');
 	const updateArticle = {
-			id:id,
+			id:artId,
 			content: _content
     };
 	req.send(JSON.stringify(updateArticle));
+	
+};
+
+const updateComment = (artId, _content) => {    
+	const req = new XMLHttpRequest();
+	req.addEventListener('load', loadArticles);
+	req.open("PUT", "./api/comments");
+	req.setRequestHeader('Content-Type', 'application/json');
+	const updateComment = {
+			id:artId,
+			content: _content
+    };
+	req.send(JSON.stringify(updateComment));
 	
 };
 
@@ -66,7 +133,18 @@ const createRow = (tableBody, article) => {
     	commentAuthorCell.innerText = comment.author.name;
     	const commentContentCell = document.createElement('td');
     	commentContentCell.innerText = comment.content;
-    	commentRow.append(commentAuthorCell, commentContentCell);
+    	const commentIdCell = document.createElement('td');
+    	commentIdCell.innerText = comment.id;
+        const deleteCell = document.createElement('td');
+        deleteCell.data = JSON.stringify(comment);
+        deleteCell.addEventListener('click', function () {
+        	deleteComment(this.data);
+        });    
+        const deleteCellLink = document.createElement('a');
+        deleteCellLink.innerText = "delete";
+        deleteCellLink.href = "#";    
+        deleteCell.append(deleteCellLink);
+    	commentRow.append(commentAuthorCell, commentContentCell, commentIdCell, deleteCell);
     	commentsTable.append(commentRow);
     	})
     contentCell.append(contentParagraph, commentsTable);

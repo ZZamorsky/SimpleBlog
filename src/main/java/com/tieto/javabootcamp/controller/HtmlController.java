@@ -21,10 +21,4 @@ public class HtmlController {
     public String articles() {
         return "articles.html";
     }
-    
-    @GetMapping("/test")
-    public String test() {
-        return "test.html";
-    }
-    
 }
