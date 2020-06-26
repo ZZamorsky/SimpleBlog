@@ -69,8 +69,8 @@ public class MyWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter
 			.and().logout()
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/users")
-			.and().cors()
-			.and().csrf().disable();
+			.and().cors();
+
 	}
 
 	@Bean

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import com.tieto.javabootcamp.Component.AccessRights;
-import com.tieto.javabootcamp.exception.BadRequestException;
+import com.tieto.javabootcamp.exception.NoAccessException;
 import com.tieto.javabootcamp.exception.NotFoundException;
 import com.tieto.javabootcamp.model.text.Comment;
 import com.tieto.javabootcamp.repository.CommentRepository;
@@ -56,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
     		}
     			
     	}
-    	else throw new BadRequestException("No permission for this operation");
+    	else throw new NoAccessException("No permission for this operation");
 		
 	}
 	@Override
@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
     		
     			
     	}
-    	else throw new BadRequestException("No permission for this operation");
+    	else throw new NoAccessException("No permission for this operation");
 	}
 
 }

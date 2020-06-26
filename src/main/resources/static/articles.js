@@ -1,26 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 	loadArticles();
-	const updateArt = document.getElementById('update-art');
-    updateArt.onclick = function() {
-    	updateArticle(
-    			document.updateForm.articleId.value, 	
-        		document.updateForm.content.value
-        		);
-    	};
-    const updateCom = document.getElementById('update-com');
-    updateCom.onclick = function() {
-    	updateComment(
-    			document.updateForm.articleId.value, 	
-        		document.updateForm.content.value
-    			);
-    	};
-    const comment = document.getElementById('comment-butt');
-    comment.onclick = function() {
-    	addComment(
-    			document.updateForm.articleId.value, 	
-        		document.updateForm.content.value
-        		);
-    	};
     document.getElementsByName('mainForm')[0].addEventListener('submit', event => {
     	event.preventDefault();
     	storeArticle(document.mainForm.content.value);
@@ -28,13 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+const setCsrfHeader = (req)  => {
+	const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+	req.setRequestHeader(header,token);
+};
+
 const addComment = (artId, content) =>{
     const req = new XMLHttpRequest();
     req.addEventListener('load', loadArticles);
     req.open("POST", "./api/comments");
+	setCsrfHeader(req);
     req.setRequestHeader('Content-Type', 'application/json');
-    const newArticle = {
-    		
+    const newArticle = {    		
     	content: content,
     	id: artId
     };
@@ -45,6 +30,7 @@ const storeArticle = (_content) => {
     const req = new XMLHttpRequest();
     req.addEventListener('load', loadArticles);
     req.open("POST", "./api/articles");
+	setCsrfHeader(req);
     req.setRequestHeader('Content-Type', 'application/json');
     const newArticle = {
     	content: _content
@@ -80,6 +66,7 @@ const deleteArticle = (_content)=> {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
     req.open("DELETE", "./api/articles");
+	setCsrfHeader(req);
     req.setRequestHeader('Content-Type', 'application/json');
     req.send(_content);
 };
@@ -88,6 +75,7 @@ const deleteComment = (id)=> {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
     req.open("DELETE", "./api/comments");
+	setCsrfHeader(req);
     req.setRequestHeader('Content-Type', 'application/json');
     req.send(id);
 };
@@ -96,6 +84,7 @@ const updateArticle = (artId, _content) => {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
 	req.open("PUT", "./api/articles");
+	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
 	const updateArticle = {
 			id:artId,
@@ -109,6 +98,7 @@ const updateComment = (artId, _content) => {
 	const req = new XMLHttpRequest();
 	req.addEventListener('load', loadArticles);
 	req.open("PUT", "./api/comments");
+	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
 	const updateComment = {
 			id:artId,
@@ -122,8 +112,6 @@ const createRow = (tableBody, article) => {
     const nameCell = document.createElement('td');
     nameCell.innerText = article.author.name;
     const contentCell = document.createElement('td');
-    const idCell = document.createElement('td');
-    idCell.innerText = article.id;
     const contentParagraph = document.createElement('p');
     contentParagraph.innerText = article.content;
     const commentsTable = document.createElement('table');
@@ -133,31 +121,63 @@ const createRow = (tableBody, article) => {
     	commentAuthorCell.innerText = comment.author.name;
     	const commentContentCell = document.createElement('td');
     	commentContentCell.innerText = comment.content;
-    	const commentIdCell = document.createElement('td');
-    	commentIdCell.innerText = comment.id;
-        const deleteCell = document.createElement('td');
-        deleteCell.data = JSON.stringify(comment);
-        deleteCell.addEventListener('click', function () {
-        	deleteComment(this.data);
-        });    
-        const deleteCellLink = document.createElement('a');
-        deleteCellLink.innerText = "delete";
-        deleteCellLink.href = "#";    
-        deleteCell.append(deleteCellLink);
-    	commentRow.append(commentAuthorCell, commentContentCell, commentIdCell, deleteCell);
+		const updateButton = document.createElement('button');
+		updateButton.innerText = "UPDATE COMMENT"
+		updateButton.data = JSON.stringify(comment)
+		updateButton.addEventListener('click', function () {
+			const updateDiv = document.createElement('div');
+			const updateField = document.createElement('input');
+			const updateButton = document.createElement('button');
+			updateButton.innerText = 'save update';
+			updateField.value = comment.content;
+			updateButton.addEventListener('click', function(){
+				
+				updateComment(comment.id, updateField.value)
+			});
+			updateDiv.append(updateField, updateButton);
+			commentContentCell.append(updateDiv);
+		}); 	
+		const deleteButton = document.createElement('button');
+    	deleteButton.innerText = "DELETE COMMENT";
+		deleteButton.data = JSON.stringify(comment);
+    	deleteButton.addEventListener('click', function () {
+    		deleteComment(this.data);
+		});
+    	commentRow.append(commentAuthorCell, commentContentCell, updateButton, deleteButton);
     	commentsTable.append(commentRow);
-    	})
-    contentCell.append(contentParagraph, commentsTable);
-    const deleteCell = document.createElement('td');
-    deleteCell.data = JSON.stringify(article);
-    deleteCell.addEventListener('click', function () {
-    	deleteArticle(this.data);
+    	});
+    const commentDiv = document.createElement('div');
+    const commentField = document.createElement('input');
+    const commentButton = document.createElement('button');
+    commentButton.innerText = 'NEW COMMENT';
+    commentButton.addEventListener('click', function () {
+    	addComment(article.id, commentField.value);
     });    
-    const deleteCellLink = document.createElement('a');
-    deleteCellLink.innerText = "delete";
-    deleteCellLink.href = "#";    
-    deleteCell.append(deleteCellLink);
-    const articleRow = document.createElement('tr');
-    articleRow.append(nameCell, contentCell, idCell, deleteCell);
+    commentDiv.append(commentField, commentButton);
+    contentCell.append(contentParagraph, commentsTable, commentDiv);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerText = "DELETE ARTICLE";
+	deleteButton.data = JSON.stringify(article);
+    deleteButton.addEventListener('click', function () {
+    	deleteArticle(this.data);
+    });
+	const updateButton = document.createElement('button');
+	updateButton.innerText = "UPDATE ARTICLE"
+	updateButton.data = JSON.stringify(article)
+	updateButton.addEventListener('click', function () {
+		const updateDiv = document.createElement('div');
+		const updateField = document.createElement('input');
+		const updateButton = document.createElement('button');
+		updateButton.innerText = 'SAVE UPDATE';
+		updateField.value = article.content;
+		updateButton.addEventListener('click', function(){
+			updateArticle(article.id, updateField.value)
+		});
+		updateDiv.append(updateField, updateButton);
+		contentCell.append(updateDiv);
+	}); 
+	const articleRow = document.createElement('tr');
+    articleRow.append(nameCell, contentCell, updateButton, deleteButton);
     tableBody.append(articleRow);    
 };

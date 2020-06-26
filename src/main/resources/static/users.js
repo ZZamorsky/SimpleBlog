@@ -26,17 +26,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
-
+const setCsrfHeader = (req)  => {
+	const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+	const header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+	req.setRequestHeader(header,token);
+};
 
 const deleteUser = (id) => {
-		const req = new XMLHttpRequest();
-		console.log(id)
-		req.addEventListener('load', loadUsers);
-	    req.open("DELETE", "./api/users/"+ id);
-	    req.send();
+	const req = new XMLHttpRequest();
+	console.log(id)
+	req.addEventListener('load', loadUsers);
+	req.open("DELETE", "./api/users/"+ id);
+	setCsrfHeader(req);
+	req.send();
 	
-
 };
 
 const storeUser = (userName, password, roleIds) => {
@@ -48,8 +51,8 @@ const storeUser = (userName, password, roleIds) => {
     const req = new XMLHttpRequest();
 	req.addEventListener('load', loadUsers);
 	req.open("POST", "./api/users");
+	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
-//    req.setRequestHeader('X-CSRF')
 	const newUser = {
 			name: userName,
 			password: password,
@@ -66,8 +69,8 @@ const updateUser = (id, userName, password, roleIds) => {
     const req = new XMLHttpRequest();
 	req.addEventListener('load', loadUsers);
 	req.open("PUT", "./api/users");
+	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
-//    req.setRequestHeader('X-CSRF')
 	const newUser = {
 			id: id,
 			name: userName,

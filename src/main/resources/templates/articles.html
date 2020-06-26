@@ -3,6 +3,8 @@
 	<link rel="stylesheet" type="text/css" href="./index.css" /> 
 	<link type="text/css" rel="stylesheet" href="./articles.css" />
 	<script type="text/javascript" src="./articles.js"></script>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 	<h1>Articles</h1>
@@ -30,29 +32,12 @@
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
-				<td><input type="submit" value="SAVE" class="red-border" /></td>
-			</tr>
-		</table>
-	</form>
-	
-		<form name="updateForm">
-		<table>
-					<tr>
-				<td>articleId:</td>
 				<td>
-					<textarea rows="1" cols="5" name="articleId" class="red-border"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td>Content:</td>
-				<td>
-					<textarea rows="6" cols="60" name="content" class="red-border"></textarea>
+				<input type="submit" value="SAVE ARTICLE" class="red-border"/>
 				</td>
 			</tr>
 		</table>
 	</form>
-	<button id="update-art">UPDATE ARTICLE</button>
-	<button id="comment-butt">COMMENT</button>
-	<button id="update-com">UPDATE COMMENT</button>
+
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import com.tieto.javabootcamp.Component.AccessRights;
 import com.tieto.javabootcamp.exception.BadRequestException;
+import com.tieto.javabootcamp.exception.NoAccessException;
 import com.tieto.javabootcamp.exception.NotFoundException;
 import com.tieto.javabootcamp.model.text.Article;
 import com.tieto.javabootcamp.repository.ArticleRepository;
@@ -49,11 +50,6 @@ public class ArticleServiceImpl implements ArticleService {
 	public Iterable<Article> listArticles() {
 		return articleRepository.findAll();
 	}
-	
-    private Article getArticle(Long id) {
-		return articleRepository.findById(id)
-					.orElseThrow(() -> new NotFoundException("Article with supplied id not found"));
-    }
 
 	@Override
 	public void removeArticle(Article article, User user) {
@@ -66,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
     		}
     			
     	}
-    	else throw new BadRequestException("No permission for this operation");
+    	else throw new NoAccessException("No permission for this operation");
     }
 	
 	
@@ -80,21 +76,12 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void updateArticle(Article article, User user) {
-    	if (accessRights.isAproved(article, user)) {
-    		if (articleRepository.findById(article.getId()).isPresent()) {
-    			article.setAuthor(
-    					userRepository.findByName(user.getUsername())
-    						.orElseThrow(() -> new NotFoundException("Author with supplied id not found"))
-    				);
-    			article.setCreatedAt(getArticle(article.getId()).getCreatedAt());
-    			articleRepository.save(article);
-    		}
+		Article dbValue = articleRepository.findById(article.getId())
+				.orElseThrow(() -> new NotFoundException("Article with supplied id not found"));
+		if (accessRights.isAproved(dbValue, user)) {
+		dbValue.setContent(article.getContent());
+		articleRepository.save(dbValue);
+		}
 
-    		else				
-    			throw new NotFoundException("Article with supplied id does not exist");
-    		
-    			
-    	}
-    	else throw new BadRequestException("No permission for this operation");
 	}
 }
