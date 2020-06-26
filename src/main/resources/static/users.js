@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
     loadRoles();
-    const attachTo = document.getElementById('mainForm');
     const butt1 = document.getElementById('update-butt');
     butt1.onclick = function() {
     	updateUser(

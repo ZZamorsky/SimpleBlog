@@ -3,6 +3,8 @@
 	<link rel="stylesheet" type="text/css" href="./index.css" /> 
 	<link type="text/css" rel="stylesheet" href="./users.css" />
 	<script type="text/javascript" src="./users.js"></script>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 	<h1>Users</h1>
