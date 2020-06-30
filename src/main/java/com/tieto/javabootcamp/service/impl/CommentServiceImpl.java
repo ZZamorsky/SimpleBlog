@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
 import com.tieto.javabootcamp.Component.AccessRights;
 import com.tieto.javabootcamp.exception.NoAccessException;
 import com.tieto.javabootcamp.exception.NotFoundException;
@@ -28,21 +27,15 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepository.findAll();
 	}
 
-    private Comment getComment(Long id) {
-		return commentRepository.findById(id)
-					.orElseThrow(() -> new NotFoundException("Comment with supplied id not found"));
-    }
-
 	@Override
 	public Comment saveComment(Comment comment, User user) {
 		comment.setCreatedAt(LocalDateTime.now());
 		comment.setAuthor(
 				userRepository.findByName(user.getUsername())
-					.orElseThrow(() -> new NotFoundException("Author with supplied id not found"))
+					.orElseThrow(() -> new NotFoundException("Author with supplied name not found"))
 			);
 		comment.setArticleID(comment.getId());
-		return commentRepository.save(comment);
-		
+		return commentRepository.save(comment);		
 	}
 
 	@Override
@@ -54,30 +47,19 @@ public class CommentServiceImpl implements CommentService {
     		else {
     		throw new NotFoundException("Article with supplied id does not exist");
     		}
-    			
-    	}
-    	else throw new NoAccessException("No permission for this operation");
-		
+       	}
+    	else throw new NoAccessException("No permission for this operation");		
 	}
+	
 	@Override
 	public void updateComment(Comment comment, User user) {
-    	if (accessRights.isAproved(comment, user)) {
-    		if (commentRepository.findById(comment.getId()).isPresent()) {
-    			comment.setAuthor(
-    					userRepository.findByName(user.getUsername())
-    						.orElseThrow(() -> new NotFoundException("Author with supplied id not found"))
-    				);
-    			comment.setCreatedAt(getComment(comment.getId()).getCreatedAt());
-    			comment.setArticleID(getComment(comment.getId()).getArticleID());
-    			
-    			commentRepository.save(comment);
-    		}
-    		else				
-    			throw new NotFoundException("Article with supplied id does not exist");
-    		
-    			
-    	}
-    	else throw new NoAccessException("No permission for this operation");
+		Comment dbValue = commentRepository.findById(comment.getId())
+				.orElseThrow(() -> new NotFoundException("Comment with supplied id not found"));
+		if (accessRights.isAproved(dbValue, user)) {
+		dbValue.setContent(comment.getContent());
+		commentRepository.save(dbValue);
+		}
+		else throw new NoAccessException("No permission for this operation");
 	}
 
 }

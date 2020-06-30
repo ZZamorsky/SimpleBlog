@@ -86,11 +86,11 @@ const updateArticle = (artId, _content) => {
 	req.open("PUT", "./api/articles");
 	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
-	const updateArticle = {
+	const updateArt = {
 			id:artId,
 			content: _content
     };
-	req.send(JSON.stringify(updateArticle));
+	req.send(JSON.stringify(updateArt));
 	
 };
 
@@ -100,11 +100,11 @@ const updateComment = (artId, _content) => {
 	req.open("PUT", "./api/comments");
 	setCsrfHeader(req);
 	req.setRequestHeader('Content-Type', 'application/json');
-	const updateComment = {
+	const updateComm = {
 			id:artId,
 			content: _content
     };
-	req.send(JSON.stringify(updateComment));
+	req.send(JSON.stringify(updateComm));
 	
 };
 

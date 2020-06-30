@@ -82,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
 		dbValue.setContent(article.getContent());
 		articleRepository.save(dbValue);
 		}
+		else throw new NoAccessException("No permission for this operation");
 
 	}
 }
