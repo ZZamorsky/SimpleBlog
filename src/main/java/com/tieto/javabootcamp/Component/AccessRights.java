@@ -9,21 +9,21 @@ import com.tieto.javabootcamp.model.text.Comment;
 @Component
 public class AccessRights {
 	
-	public Boolean isAproved(Article article, User user) {
-		boolean isAproved = false;
+	public Boolean isApproved(Article article, User user) {
+		boolean isApproved = false;
 		if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
-			isAproved = true;
+			isApproved = true;
 		else if (article.getAuthor().getName().equals(user.getUsername())) 
-			isAproved = true;		
-		return isAproved;		
+			isApproved = true;
+		return isApproved;
 	}
 
-	public boolean isAproved(Comment comment, User user) {
-		boolean isAproved = false;
+	public boolean isApproved(Comment comment, User user) {
+		boolean isApproved = false;
 		if (user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
-			isAproved = true;
+			isApproved = true;
 		else if (comment.getAuthor().getName().equals(user.getUsername())) 
-			isAproved = true;		
-		return isAproved;	
+			isApproved = true;
+		return isApproved;
 	}
 }

@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-    	if (userRepository.findByName(user.getName()).isEmpty()) {
+    	if (userRepository.findByName(user.getName()).equals(null)) {
     		user.setPassword(passwordEncoder.encode(user.getPassword()));
     		if (user.getRoles().isEmpty()) {
     			user.setRoles(roleRepository.findByName("USER"));

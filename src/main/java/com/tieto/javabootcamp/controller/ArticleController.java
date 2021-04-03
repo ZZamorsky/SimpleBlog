@@ -18,7 +18,8 @@ import com.tieto.javabootcamp.service.ArticleService;
 @RequestMapping("/api/articles")
 public class ArticleController {
 
-	@Autowired ArticleService articleService;
+	@Autowired
+	private ArticleService articleService;
 	
 	@GetMapping public Iterable<Article> get() { 
 		return articleService.listArticles();

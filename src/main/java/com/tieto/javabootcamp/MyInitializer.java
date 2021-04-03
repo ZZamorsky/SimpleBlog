@@ -15,8 +15,10 @@ public class MyInitializer implements InitializingBean  {
 
 	private static final Logger log = LoggerFactory.getLogger(MyInitializer.class);
 	
-	@Autowired UserService userService;
-	@Autowired RoleRepository roleRepository;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private RoleRepository roleRepository;
 	
 
 	@Override

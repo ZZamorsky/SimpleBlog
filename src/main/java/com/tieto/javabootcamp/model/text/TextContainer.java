@@ -29,6 +29,7 @@ import com.tieto.javabootcamp.model.user.User;
  * articleID biginteger
  * recipient text
  */
+
 @Entity
 @Table(name="text_container")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

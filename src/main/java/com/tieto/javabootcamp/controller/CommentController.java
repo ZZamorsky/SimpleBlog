@@ -17,7 +17,8 @@ import com.tieto.javabootcamp.service.CommentService;
 @RequestMapping("/api/comments")
 public class CommentController {
 
-	@Autowired CommentService commentService;
+	@Autowired
+	private CommentService commentService;
 	
 	@GetMapping public Iterable<Comment> get() { 
 		return commentService.listComments();

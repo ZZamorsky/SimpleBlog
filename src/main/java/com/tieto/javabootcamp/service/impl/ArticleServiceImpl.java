@@ -53,7 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void removeArticle(Article article, User user) {
-    	if (accessRights.isAproved(article, user)) {
+    	if (accessRights.isApproved(article, user)) {
     		if (articleRepository.findById(article.getId()).isPresent()) {
     		articleRepository.deleteById(article.getId());
     		} 
@@ -78,7 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public void updateArticle(Article article, User user) {
 		Article dbValue = articleRepository.findById(article.getId())
 				.orElseThrow(() -> new NotFoundException("Article with supplied id not found"));
-		if (accessRights.isAproved(dbValue, user)) {
+		if (accessRights.isApproved(dbValue, user)) {
 		dbValue.setContent(article.getContent());
 		articleRepository.save(dbValue);
 		}

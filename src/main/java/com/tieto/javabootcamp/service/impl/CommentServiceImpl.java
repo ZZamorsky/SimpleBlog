@@ -40,7 +40,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public void removeComment(Comment comment, User user) {
-		if (accessRights.isAproved(comment, user)) {
+		if (accessRights.isApproved(comment, user)) {
     		if (commentRepository.findById(comment.getId()).isPresent()) {
     			commentRepository.deleteById(comment.getId());
     		} 
@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
 	public void updateComment(Comment comment, User user) {
 		Comment dbValue = commentRepository.findById(comment.getId())
 				.orElseThrow(() -> new NotFoundException("Comment with supplied id not found"));
-		if (accessRights.isAproved(dbValue, user)) {
+		if (accessRights.isApproved(dbValue, user)) {
 		dbValue.setContent(comment.getContent());
 		commentRepository.save(dbValue);
 		}

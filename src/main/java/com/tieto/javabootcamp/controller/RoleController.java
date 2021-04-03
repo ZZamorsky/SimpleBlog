@@ -14,7 +14,8 @@ import com.tieto.javabootcamp.repository.RoleRepository;
 @RequestMapping("/api/roles")
 public class RoleController {
 
-	@Autowired RoleRepository roleRepository;
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@GetMapping public Set<Role> listRoles() {
 		return roleRepository.findAll();
